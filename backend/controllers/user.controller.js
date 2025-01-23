@@ -77,14 +77,15 @@ export const getUserProfile = async (req, res, next) => {
 
 export const logoutUser = async (req, res, next) => {
     
-    //clearing the cookie
-    res.clearCookie("token");
-
+    
     //fetching token
     const token=req.cookies.token || req.headers.authorization?.split(" ")[1];
-
+    
     //adding token in the blacklist collection
     await blacklistTokenModel.create({token});
+    
+    //clearing the cookie
+    res.clearCookie("token");
 
     res.status(200).json({message: "Logged out successfully"});
 }
